@@ -134,6 +134,20 @@ class ProductEditorWindow(tk.Toplevel):
             messagebox.showerror("Ошибка валидации", "Артикул и наименование являются обязательными для заполнения.")
             return
 
+        # Проверка: количество на складе не может быть отрицательным
+        stock_val = new_data.get("stock_quantity")
+        if stock_val is not None and stock_val != "":
+            try:
+                # допускаем числа с десятичной точкой, приведём к int
+                stock_num = int(float(stock_val))
+            except ValueError:
+                messagebox.showerror("Ошибка валидации", "Поле 'Кол-во на складе' должно быть числом.")
+                return
+            if stock_num < 0:
+                messagebox.showwarning("Неверное количество", "Количество на складе не может быть меньше 0.")
+                return
+            new_data['stock_quantity'] = stock_num
+
         # Преобразование имен в ID перед сохранением
         new_data['category_id'] = next((c['category_id'] for c in self.categories if c['category_name'] == new_data['category_name']), None)
         new_data['manufacturer_id'] = next((m['manufacturer_id'] for m in self.manufacturers if m['manufacturer_name'] == new_data['manufacturer_name']), None)

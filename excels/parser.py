@@ -1,7 +1,5 @@
 import psycopg2
 import pandas as pd
-import sys
-import os
 
 from config import DB_SETTINGS
 
