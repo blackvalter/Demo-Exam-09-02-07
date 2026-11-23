@@ -1,0 +1,14 @@
+services:
+  db:
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - shoe_net
+  db-check:
+    networks:
+      - shoe_net
+volumes:
+  db_data:
+networks:
+  shoe_net:
+    driver: bridge
