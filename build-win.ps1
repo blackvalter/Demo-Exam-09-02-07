@@ -5,7 +5,7 @@ param(
 $ErrorActionPreference = 'Continue'
 Push-Location $PSScriptRoot -ErrorAction Stop
 try {
- & $Python -m PyInstaller --noconfirm --clean --windowed --onedir --name ShoeStore --icon resources/icon.ico --add-data 'resources:resources' --distpath $Output main.py
+ & $Python -m PyInstaller --noconfirm --clean --windowed --distpath $Output ShoeStore.spec
  if ($LASTEXITCODE -ne 0) { throw "PyInstaller failed ($LASTEXITCODE)" }
 } finally { Pop-Location }
 
