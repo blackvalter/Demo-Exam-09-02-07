@@ -1,3 +1,4 @@
 # Проверка базы
 
-Сначала дождитесь healthy в docker compose ps.
+1. Дождитесь healthy в docker compose ps.
+2. Выполните docker compose run --rm db-check. После импорта ожидается tables=8.
