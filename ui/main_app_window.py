@@ -251,6 +251,7 @@ class MainAppWindow(tk.Tk):
         details = (
             f"Артикул заказа: {order.get('order_id', 'N/A')}",
             f"Статус: {order.get('status', 'N/A')}",
+            f"Клиент: {order.get('client_name') or 'не указан'}",
             f"Пункт выдачи: {order.get('pickup_point_address', 'N/A')}",
             f"Дата заказа: {order.get('order_date', 'N/A')}"
         )

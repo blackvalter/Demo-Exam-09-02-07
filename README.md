@@ -33,3 +33,38 @@
 - [db_create_script.sql](db_create_script.sql) — схема БД
 - [db_pull_data.py](db_pull_data.py) и [excels/parser.py](excels/parser.py) — импорт из Excel
 - UI: [ui/](ui/) — [`ui.login_window.LoginWindow`](ui/login_window.py), [`ui.main_app_window.MainAppWindow`](ui/main_app_window.py), редакторы товаров/заказов
+
+## Учебный стенд практик 11–14
+
+Ветка practicum/11-14 содержит конфигурацию Compose, учебные данные,
+проверки каталога и сценарий сборки Windows. Исходный клиент использует
+Tkinter. Контейнеры запускают PostgreSQL и вспомогательную проверку.
+
+### Чистая БД и клиент
+
+1. Скопируйте .env.example в .env рядом с main.py. Укажите свой пароль учебной БД.
+2. Выполните docker compose up -d --wait db.
+3. Для пустой базы скопируйте db_create_script.sql и lab/seed.sql в контейнер
+   командами docker compose cp и выполните их через psql с ON_ERROR_STOP=1.
+   Первый скрипт пересоздаёт таблицы, а второй добавляет синтетические записи.
+   Используйте их только на отдельной учебной базе.
+4. Выполните docker compose run --rm db-check. После импорта ожидается tables=8.
+5. Установите зависимости в отдельном окружении и откройте python main.py.
+   Учебная учётная запись приложения lab_admin, пароль demo-only-admin
+   предназначены только для синтетической локальной базы.
+
+Постоянное хранилище включается дополнительным файлом
+compose.persistence.yaml. Сначала сделайте pg_dump, затем подключите
+именованный том и восстановите копию в пустую БД через pg_restore.
+Для клиентского приложения используйте 127.0.0.1:5433, для db-check — db:5432.
+Порядок проверок приведён в [заметке по БД](docs/database-check.md).
+
+### Проверки и Windows-сборка
+
+Из корня запускайте python -m unittest discover -s tests -v.
+Установите PyInstaller и запустите build-win.ps1 на Windows.
+После сборки копируйте папку dist/ShoeStore целиком. Файл .env лежит
+рядом с ShoeStore.exe, а комплект ресурсов уже включён в сборку.
+Ключ --diagnose с путём к отчёту проверяет Tk, наличие ресурсов,
+подключение и число товаров без вывода реквизитов.
+

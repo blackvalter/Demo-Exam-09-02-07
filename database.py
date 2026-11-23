@@ -58,6 +58,10 @@ def get_products(filters=None):
         if search_query:
             where_clauses.append("(p.product_name ILIKE %s OR p.product_sku ILIKE %s OR p.description ILIKE %s)")
             params.extend([f"%{search_query}%"] * 3)
+        supplier = filters.get("supplier")
+        if supplier and supplier != "Все поставщики":
+            where_clauses.append("s.supplier_name = %s")
+            params.append(supplier)
         if filters.get("sort_by") == "stock_quantity":
             order = "ASC" if filters.get("sort_order") == "asc" else "DESC"
             order_clause = f"ORDER BY p.stock_quantity {order}, p.product_name"

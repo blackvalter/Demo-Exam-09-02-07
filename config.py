@@ -1,7 +1,12 @@
 import os
+from pathlib import Path
+import sys
+
 from dotenv import load_dotenv
 
-load_dotenv(".env")
+BUNDLE_ROOT = Path(__file__).resolve().parent
+APP_ROOT = Path(sys.executable).resolve().parent if getattr(sys, "frozen", False) else BUNDLE_ROOT
+load_dotenv(APP_ROOT / ".env")
 
 # Настройки для подключения к базе данных
 DB_SETTINGS = {
@@ -36,7 +41,7 @@ FONT_CARD_BODY = ("Times New Roman", 11)
 FONT_CARD_ACCENT = ("Times New Roman", 12, "bold")
 
 # Пути
-RESOURCES_DIR = "./resources/"
+RESOURCES_DIR = BUNDLE_ROOT / "resources"
 LOGO_PATH = os.path.join(RESOURCES_DIR, "icon.jpg")
 ICON_PATH = os.path.join(RESOURCES_DIR, "icon.ico")
 PLACEHOLDER_IMAGE_PATH = os.path.join(RESOURCES_DIR, "picture.png")

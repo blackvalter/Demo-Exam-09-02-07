@@ -1,7 +1,11 @@
+import sys
 from ui.login_window import LoginWindow
 from ui.main_app_window import MainAppWindow
 
 if __name__ == "__main__":
+    if len(sys.argv) == 3 and sys.argv[1] == "--diagnose":
+        from diagnostic import run_diagnostic
+        raise SystemExit(run_diagnostic(sys.argv[2]))
     while True:
         user_info = None
         
